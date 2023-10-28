@@ -34,14 +34,15 @@ const Mint: NextPage = () => {
         Claim An NFT
       </Web3Button>
 
-      {/* <Web3Button
+    
+      <Web3Button
       contractAddress="0x8D31a6747FaEbFA795770D4F37e5655c8D3643fe"
       action={(contract) => {
-        contract.call("claim", [address, 1 , _currency, _pricePerToken, _allowlistProof, _data])
+        contract.call("claim", [address, 1 , "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" , 0, [], []])
       }}
     >
       claim
-    </Web3Button> */}
+    </Web3Button>
     </div>
   );
 };

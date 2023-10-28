@@ -11,6 +11,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThirdwebProvider
       activeChain={PolygonZkevmTestnet}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
+      sdkOptions={{
+        gasless: {
+          biconomy: {
+            apiKey: process.env.NEXT_PUBLIC_API_KEY,
+            apiId: "79322761-6bc8-4af5-8dfc-70521eb7922a",
+          }
+        },
+      }}
     >
       <Component {...pageProps} />
     </ThirdwebProvider>
