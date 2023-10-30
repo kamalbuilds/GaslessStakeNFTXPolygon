@@ -18,9 +18,11 @@ import {
   tokenContractAddress,
 } from "../consts/contractAddresses";
 import styles from "../styles/Home.module.css";
+import { useAuth } from "../context/AuthContext";
 
 const Stake: NextPage = () => {
-  const address = useAddress();
+  const { address } = useAuth();
+  
   const { contract: nftDropContract } = useContract(
     nftDropContractAddress,
     "nft-drop"
