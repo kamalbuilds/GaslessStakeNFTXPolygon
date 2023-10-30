@@ -8,7 +8,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ethers } from 'ethers'
 import NFTAbi from "../utils/NFTAbi.json";
-import stakeABI from "../utils/stakeABI.json";
+import stakeABI from "../utils/stakeAbi.json";
 import {
     IHybridPaymaster,
     SponsorUserOperationDto,
