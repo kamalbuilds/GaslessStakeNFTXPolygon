@@ -25,7 +25,7 @@ import { BiconomySmartAccount } from "@biconomy/account";
 const AuthContext = createContext<any>({});
 
 // Create a provider component
-export function AuthProvider({ children } : any) {
+export function AuthProvider({ children }: any) {
     const [particle, setParticle] = useState<ParticleAuthModule.ParticleNetwork | null>(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [address, setAddress] = useState<string>("")
@@ -33,13 +33,13 @@ export function AuthProvider({ children } : any) {
     const [smartAccount, setSmartAccount] = useState<BiconomySmartAccountV2 | null>(null);
     const [provider, setProvider] = useState<ethers.providers.Provider | null>(null)
 
-  
+
     const bundler: IBundler = new Bundler({
         bundlerUrl: 'https://bundler.biconomy.io/api/v2/1442/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44', // bundler URL from dashboard use 84531 as chain id if you are following this on base goerli,    
         chainId: ChainId.POLYGON_ZKEVM_TESTNET,
         entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
     })
-  
+
     const paymaster: IPaymaster = new BiconomyPaymaster({
         paymasterUrl: 'https://paymaster.biconomy.io/api/v1/1442/xZLcL2LFL.282332e9-309e-4745-a08b-e5bc43e27d97'
     });
@@ -56,27 +56,28 @@ export function AuthProvider({ children } : any) {
             }
         });
         setParticle(particleAuth);
+        return particleAuth
     };
 
 
     const login = async () => {
-        initializeParticle();
+        const particles = initializeParticle();
         try {
             setLoading(true)
-            const userInfo = await particle.auth.login();
+            const userInfo = await particles.auth.login();
             console.log("Logged in user:", userInfo);
-            const particleProvider = new ParticleProvider(particle.auth);
+            const particleProvider = new ParticleProvider(particles.auth);
             const web3Provider = new ethers.providers.Web3Provider(
                 particleProvider,
                 "any"
             );
             setProvider(web3Provider)
-  
+
             const ECDSAModule = await ECDSAOwnershipValidationModule.create({
                 signer: web3Provider.getSigner(),
                 moduleAddress: DEFAULT_ECDSA_OWNERSHIP_MODULE
             })
-  
+
             let biconomySmartAccount = await BiconomySmartAccountV2.create({
                 chainId: ChainId.POLYGON_ZKEVM_TESTNET,
                 bundler: bundler,
@@ -95,7 +96,7 @@ export function AuthProvider({ children } : any) {
     };
 
     return (
-        <AuthContext.Provider value={{ loggedIn, login, initializeParticle , provider , smartAccount , address }}>
+        <AuthContext.Provider value={{ loggedIn, login, initializeParticle, provider, smartAccount, address }}>
             {children}
         </AuthContext.Provider>
     );

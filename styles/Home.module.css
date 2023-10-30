@@ -132,6 +132,12 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.StakeBtn {
+  margin: 15px;
+  padding: 8px 14px;
+  border: 1px solid whitesmoke;
+}
+
 /* Second tokenLabel item */
 
 .tokenValue {

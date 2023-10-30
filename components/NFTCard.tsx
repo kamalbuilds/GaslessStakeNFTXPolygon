@@ -13,11 +13,14 @@ import styles from "../styles/Home.module.css";
 
 interface NFTCardProps {
   tokenId: number;
+  handleWithdrawNFT: any;
+  loadingWithdrawTxn: boolean
 }
 
-const NFTCard: FC<NFTCardProps> = ({ tokenId }) => {
+const NFTCard: FC<NFTCardProps> = ({ tokenId, handleWithdrawNFT, loadingWithdrawTxn }) => {
   const { contract } = useContract(nftDropContractAddress, "nft-drop");
   const { data: nft } = useNFT(contract, tokenId);
+
 
   return (
     <>
@@ -30,12 +33,15 @@ const NFTCard: FC<NFTCardProps> = ({ tokenId }) => {
             />
           )}
           <h3>{nft.metadata.name}</h3>
-          <Web3Button
-            action={(contract) => contract?.call("withdraw", [[nft.metadata.id]])}
-            contractAddress={stakingContractAddress}
-          >
-            Withdraw
-          </Web3Button>
+
+          {loadingWithdrawTxn ? (
+            <div>Loading....</div>
+          ) : (
+            <button onClick={() => {
+              handleWithdrawNFT(nft.metadata.id);
+            }}>Withdraw</button>
+          )}
+
         </div>
       )}
     </>
